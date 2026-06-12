@@ -1,0 +1,198 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Syne:wght@600;700;800&display=swap');
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #0a0f1e;
+  --surface: #111827;
+  --surface2: #1a2235;
+  --border: #1f2d44;
+  --accent: #00d4aa;
+  --accent2: #3b82f6;
+  --danger: #f87171;
+  --amber: #fbbf24;
+  --text: #e2e8f0;
+  --muted: #64748b;
+  --card-radius: 16px;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* â”€â”€ Layout â”€â”€ */
+.app-shell { display: flex; min-height: 100vh; }
+
+.sidebar {
+  width: 240px;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  padding: 24px 0;
+  position: fixed;
+  top: 0; left: 0; bottom: 0;
+  z-index: 10;
+}
+
+.sidebar-logo {
+  padding: 0 24px 28px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 16px;
+}
+.sidebar-logo h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--accent);
+  letter-spacing: -0.5px;
+}
+.sidebar-logo span { font-size: 11px; color: var(--muted); display: block; margin-top: 2px; }
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 24px;
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 500;
+  border-left: 3px solid transparent;
+  transition: all 0.15s;
+}
+.nav-item:hover { color: var(--text); background: var(--surface2); }
+.nav-item.active { color: var(--accent); border-left-color: var(--accent); background: rgba(0,212,170,0.06); }
+.nav-icon { font-size: 18px; width: 20px; text-align: center; }
+
+.main { margin-left: 240px; padding: 32px; flex: 1; }
+
+/* â”€â”€ Cards â”€â”€ */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--card-radius);
+  padding: 24px;
+  margin-bottom: 20px;
+}
+.card-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* â”€â”€ Stats â”€â”€ */
+.stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 20px; }
+.stat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--card-radius);
+  padding: 20px;
+}
+.stat-label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+.stat-value { font-family: 'Syne', sans-serif; font-size: 32px; font-weight: 800; margin: 6px 0 2px; }
+.stat-sub { font-size: 12px; color: var(--muted); }
+.green { color: var(--accent); }
+.blue  { color: var(--accent2); }
+.amber { color: var(--amber); }
+.red   { color: var(--danger); }
+
+/* â”€â”€ Disease tabs â”€â”€ */
+.disease-tabs { display: flex; gap: 8px; margin-bottom: 20px; }
+.dtab {
+  padding: 8px 18px;
+  border-radius: 50px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  font-size: 13px;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.dtab:hover { color: var(--text); border-color: var(--accent2); }
+.dtab.active { background: var(--accent); border-color: var(--accent); color: #000; font-weight: 600; }
+
+/* â”€â”€ Form â”€â”€ */
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.fg { display: flex; flex-direction: column; gap: 6px; }
+.fg label { font-size: 12px; color: var(--muted); font-weight: 500; text-transform: uppercase; letter-spacing: 0.4px; }
+.fg input {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 14px;
+  color: var(--text);
+  font-size: 14px;
+  font-family: 'DM Sans', sans-serif;
+  transition: border-color 0.15s;
+}
+.fg input:focus { outline: none; border-color: var(--accent); }
+
+.btn-predict {
+  margin-top: 18px;
+  padding: 12px 28px;
+  background: var(--accent);
+  color: #000;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+.btn-predict:hover { opacity: 0.85; }
+.btn-predict:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* â”€â”€ Result â”€â”€ */
+.result-box {
+  margin-top: 20px;
+  padding: 20px;
+  border-radius: 12px;
+  background: rgba(0,212,170,0.07);
+  border: 1px solid rgba(0,212,170,0.25);
+}
+.result-label { font-size: 12px; color: var(--accent); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+.result-disease { font-family: 'Syne', sans-serif; font-size: 26px; font-weight: 800; color: var(--accent); }
+.result-conf { font-size: 13px; color: var(--muted); margin-top: 4px; }
+
+.prob-bars { margin-top: 14px; display: flex; flex-direction: column; gap: 8px; }
+.prob-row { display: flex; align-items: center; gap: 10px; }
+.prob-name { font-size: 12px; color: var(--muted); width: 130px; flex-shrink: 0; }
+.prob-bar-bg { flex: 1; height: 6px; background: var(--surface2); border-radius: 3px; }
+.prob-bar-fill { height: 100%; background: var(--accent); border-radius: 3px; transition: width 0.5s ease; }
+.prob-pct { font-size: 12px; color: var(--muted); width: 38px; text-align: right; }
+
+/* â”€â”€ Two-col layout â”€â”€ */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+/* â”€â”€ Table â”€â”€ */
+.data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.data-table th { color: var(--muted); font-weight: 500; text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--border); font-size: 11px; text-transform: uppercase; }
+.data-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); color: var(--text); }
+.data-table tr:last-child td { border-bottom: none; }
+.data-table tr:hover td { background: var(--surface2); }
+
+.badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+}
+.badge-green { background: rgba(0,212,170,0.12); color: var(--accent); }
+.badge-blue  { background: rgba(59,130,246,0.12); color: var(--accent2); }
+.badge-amber { background: rgba(251,191,36,0.12); color: var(--amber); }
+.badge-red   { background: rgba(248,113,113,0.12); color: var(--danger); }
+
+.empty-state { text-align: center; padding: 32px; color: var(--muted); font-size: 14px; }
