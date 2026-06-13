@@ -5,3 +5,4 @@ numpy
 pandas
 pydantic
 python-multipart
+psycopg2-binary
