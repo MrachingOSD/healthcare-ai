@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./App.css";
 
-const API = "http://127.0.0.1:8000";
+const API = "https://healthcare-ai-v9pd.onrender.com";
 
 const DISEASE_CONFIGS = {
   skin: {
