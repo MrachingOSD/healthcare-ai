@@ -9,16 +9,17 @@ from pydantic import BaseModel
 import pickle, os, numpy as np
 import sys
 
-sys.path.append(os.path.join(os.path.dirname(__file__), "../database"))
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "../database"))
 try:
     from db import (
-    create_patient, get_all_patients, get_patient_by_id,
-    save_prediction, get_predictions_for_patient,
-    get_all_predictions, get_disease_by_name,
-    create_user, get_user_by_email
-)
+        create_patient, get_all_patients, get_patient_by_id,
+        save_prediction, get_predictions_for_patient,
+        get_all_predictions, get_disease_by_name,
+        create_user, get_user_by_email
+    )
     DB_AVAILABLE = True
-except Exception:
+except Exception as e:
+    print(f"DB connection failed: {e}")
     DB_AVAILABLE = False
 
 app = FastAPI(title="Healthcare AI API", version="1.0.0")
@@ -31,7 +32,7 @@ app.add_middleware(
 )
 
 # ── Load models ──────────────────────────────────────────────
-MODEL_DIR = os.path.join(os.path.dirname(__file__), "../ml_model/models")
+MODEL_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../ml_model/models")
 
 def load(name):
     path = os.path.join(MODEL_DIR, name)
@@ -91,6 +92,16 @@ class PatientInput(BaseModel):
     contact: str = ""
     created_by: int = None
 
+class RegisterInput(BaseModel):
+    name: str
+    email: str
+    password: str
+    role_id: int = 2
+
+class LoginInput(BaseModel):
+    email: str
+    password: str
+
 # ── Helper: save to DB if available ──────────────────────────
 def try_save(patient_id, user_id, disease_name, predicted_label, confidence, features):
     if DB_AVAILABLE and patient_id:
@@ -114,16 +125,6 @@ def health():
         "cholera_model":  cholera_model is not None,
         "database":       DB_AVAILABLE,
     }
-# ── Auth schemas ──────────────────────────────────────────────
-class RegisterInput(BaseModel):
-    name: str
-    email: str
-    password: str
-    role_id: int = 2
-
-class LoginInput(BaseModel):
-    email: str
-    password: str
 
 # ── Auth routes ───────────────────────────────────────────────
 @app.post("/auth/register")
@@ -144,6 +145,7 @@ def login(data: LoginInput):
     if not user or user["password_hash"] != data.password:
         raise HTTPException(401, "Invalid email or password")
     return {"success": True, "user": dict(user)}
+
 # ── Patient routes ────────────────────────────────────────────
 @app.post("/patients")
 def add_patient(data: PatientInput):
